@@ -5,16 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrito de Compras</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body class="container-principal">
   <header>
-    <a href="#" class="logo">Mi Tienda</a>
-    <div id="menu-icon" class="bx bx-menu"></div>
-    <nav class="navbar">
-      <a href="index.html#inicio">Inicio</a>
+    <div class="container-principal">
+    <header class="header">
+      <a href="#" class="logo">
+        <img src="img/logo dkomico.webp" alt="Logo" style="height: 40px;">
+      </a>
+
+      <!-- Ícono del menú hamburguesa -->
+      <i class='bx bx-menu' id="menu-icon"></i>
+
+      <!-- Menú de navegación -->
+      <nav class="navbar">
+        <a href="#home" class="active">home</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#ilustraciones">Galería</a>
+      <a href="#usos">Usos</a>
+      <a href="#como-trabajo">Cómo trabajo</a>
+      <a href="#contacto">Contacto</a>
       <a href="tienda.html">Tienda</a>
-      <a href="index.html#contacto">Contacto</a>
+      <a href="carrito.html" class="carrito-icono">
+  <i class="fas fa-shopping-cart"></i>
+  <span class="contador-carrito">0</span>
+</a>
+
+
+
+
+
+
     </nav>
   </header>
 
@@ -34,6 +57,24 @@
 </main>
 
 <script>
+
+  //Menú hamburguesa
+
+let menuIcon = document.querySelector('#menu-icon');
+  let navbar = document.querySelector('.navbar');
+
+  menuIcon.onclick = () => {
+    navbar.classList.toggle('active');
+  };
+
+  let navLinks = document.querySelectorAll('.navbar a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navbar.classList.remove('active');
+    });
+  });
+
   const contenedorCarrito = document.getElementById('carrito-items');
   const totalElemento = document.getElementById('total-price');
   const btnVaciar = document.getElementById('vaciar-carrito');

@@ -199,6 +199,26 @@ margin-bottom: 30px;
 
 
 <script>
+
+  //MNÚ HAMBIRGUESA
+
+let menuIcon = document.querySelector('#menu-icon');
+  let navbar = document.querySelector('.navbar');
+
+  menuIcon.onclick = () => {
+    navbar.classList.toggle('active');
+  };
+
+  let navLinks = document.querySelectorAll('.navbar a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navbar.classList.remove('active');
+    });
+  });
+
+
+
   // Al cargar la página, actualiza el contador del carrito
   actualizarContador();
 
