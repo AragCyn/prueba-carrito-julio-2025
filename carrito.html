@@ -34,65 +34,95 @@
 </main>
 
 <script>
-  
-
   const contenedorCarrito = document.getElementById('carrito-items');
-    const totalElemento = document.getElementById('total-price');
-    const btnVaciar = document.getElementById('vaciar-carrito');
-    const btnFinalizar = document.getElementById('btn-finalizar');
+  const totalElemento = document.getElementById('total-price');
+  const btnVaciar = document.getElementById('vaciar-carrito');
+  const btnFinalizar = document.getElementById('btn-finalizar');
 
-    function cargarCarrito() {
-      contenedorCarrito.innerHTML = "";
-      let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-      let total = 0;
+  function cargarCarrito() {
+    contenedorCarrito.innerHTML = "";
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-      if (carrito.length === 0) {
-        contenedorCarrito.innerHTML = "<p style='font-size: 1.5rem;'>Tu carrito está vacío.</p>";
-        totalElemento.textContent = `$0`;
-        if (btnFinalizar) btnFinalizar.style.display = 'none';
-        return;
+    // Agrupar productos por nombre
+    const productosAgrupados = {};
+    carrito.forEach(prod => {
+      if (productosAgrupados[prod.nombre]) {
+        productosAgrupados[prod.nombre].cantidad++;
       } else {
-        if (btnFinalizar) btnFinalizar.style.display = 'inline-block';
+        productosAgrupados[prod.nombre] = {
+          nombre: prod.nombre,
+          precio: prod.precio,
+          cantidad: 1
+        };
       }
-
-      carrito.forEach((producto, index) => {
-        total += producto.precio;
-
-        const div = document.createElement('div');
-        div.className = 'usos-box';
-        div.innerHTML = `
-          <h3>${producto.nombre}</h3>
-          <p>Precio: $${producto.precio.toLocaleString()}</p>
-          <div class="btn-container">
-            <button class="btn eliminar-btn" data-index="${index}">Eliminar</button>
-          </div>
-        `;
-        contenedorCarrito.appendChild(div);
-      });
-
-      totalElemento.textContent = `$${total.toLocaleString()}`;
-      agregarEventosEliminar();
-    }
-
-    function agregarEventosEliminar() {
-      document.querySelectorAll('.eliminar-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-          const index = this.getAttribute('data-index');
-          let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-          carrito.splice(index, 1);
-          localStorage.setItem('carrito', JSON.stringify(carrito));
-          cargarCarrito();
-        });
-      });
-    }
-
-    btnVaciar.addEventListener('click', () => {
-      localStorage.removeItem('carrito');
-      cargarCarrito();
     });
 
+    const productos = Object.values(productosAgrupados);
+    let total = 0;
+
+    if (productos.length === 0) {
+      contenedorCarrito.innerHTML = "<p style='font-size: 1.5rem;'>Tu carrito está vacío.</p>";
+      totalElemento.textContent = `$0`;
+      if (btnFinalizar) btnFinalizar.style.display = 'none';
+      return;
+    } else {
+      if (btnFinalizar) btnFinalizar.style.display = 'inline-block';
+    }
+
+    productos.forEach((producto, index) => {
+      const subtotal = producto.precio * producto.cantidad;
+      total += subtotal;
+
+      const div = document.createElement('div');
+      div.className = 'usos-box';
+      div.innerHTML = `
+        <h3>${producto.nombre}</h3>
+        <p>Precio unitario: $${producto.precio.toLocaleString()}</p>
+        <p>Cantidad: ${producto.cantidad}</p>
+        <p>Subtotal: $${subtotal.toLocaleString()}</p>
+        <div class="btn-container">
+          <button class="btn eliminar-una" data-nombre="${producto.nombre}">Eliminar una</button>
+          <button class="btn eliminar-todas" data-nombre="${producto.nombre}">Eliminar todas</button>
+        </div>
+      `;
+      contenedorCarrito.appendChild(div);
+    });
+
+    totalElemento.textContent = `$${total.toLocaleString()}`;
+    agregarEventosEliminar();
+  }
+
+  function agregarEventosEliminar() {
+    document.querySelectorAll('.eliminar-una').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const nombre = this.getAttribute('data-nombre');
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        const index = carrito.findIndex(p => p.nombre === nombre);
+        if (index !== -1) carrito.splice(index, 1);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        cargarCarrito();
+      });
+    });
+
+    document.querySelectorAll('.eliminar-todas').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const nombre = this.getAttribute('data-nombre');
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito = carrito.filter(p => p.nombre !== nombre);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        cargarCarrito();
+      });
+    });
+  }
+
+  btnVaciar.addEventListener('click', () => {
+    localStorage.removeItem('carrito');
     cargarCarrito();
+  });
+
+  cargarCarrito();
 </script>
+
 
   
 </body>
