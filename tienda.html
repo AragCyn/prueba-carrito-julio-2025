@@ -1,0 +1,237 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div class="container-principal">
+    <header class="header">
+      <a href="#" class="logo">
+        <img src="img/logo dkomico.webp" alt="Logo" style="height: 40px;">
+      </a>
+
+      <!-- Ícono del menú hamburguesa -->
+      <i class='bx bx-menu' id="menu-icon"></i>
+
+      <!-- Menú de navegación -->
+      <nav class="navbar">
+        <a href="index.html#home" class="active">home</a>
+      <a href="index.html#sobre-mi">Sobre mí</a>
+      <a href="index.html#ilustraciones">Galería</a>
+      <a href="index.html#usos">Usos</a>
+      <a href="index.html#como-trabajo">Cómo trabajo</a>
+      <a href="index.html#contacto">Contacto</a>
+      <a href="tienda.html">Tienda</a>
+      
+
+<a href="carrito.html" class="carrito-icono">
+  <i class="fas fa-shopping-cart"></i>
+  <span class="contador-carrito">0</span>
+</a>
+
+
+
+    </nav>
+    </header>
+    
+    <main>
+        <h1 >
+    Nuestros Productos
+  </h1>
+
+  <h2 >
+    Elegí tu diseño favorito y llevate una pieza única 🎨
+  </h2>
+
+    <section class="productos">
+
+      <div class="producto">
+        <img src="img/CON PORQUERIA.webp" alt="Remera Atlético">
+        <div class="producto-info">
+          <h3>Remera Atlét</h3>
+          <p>Remera de algodón con diseño exclusivo del Decano.</p>
+          <p class="precio">$5.000</p>
+          
+
+<button class="btn-comprar" data-nombre="Remera Atlético" data-precio="5000">Agregar al carrito</button>
+
+
+
+        </div>
+      </div>
+
+      <div class="producto">
+        <img src="producto2.jpg" alt="Taza personalizada">
+        <div class="producto-info">
+          <h3>Taza personalizada</h3>
+          <p>Taza</p>
+          <p class="precio">$2.500</p>
+          <button class="btn-comprar"data-nombre="Taza" data-precio="2500"        >Agregar al carrito</button>
+        </div>
+      </div>
+
+      <div class="producto">
+        <img src="producto3.jpg" alt="Poster edición limitada">
+        <div class="producto-info">
+          <h3>Poster</h3>
+          <p>Ilustración impresa en alta calidad.</p>
+          <p class="precio">$3.000</p>
+          <button class="btn-comprar"data-nombre="Poster" data-precio="3000">Agregar al carrito</button>
+        </div>
+      </div>
+
+    </section>
+</main>
+    <style>
+
+        
+
+
+ h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      margin-top: 90px;
+      color: #00eeff;
+      font-family: "Poppins", sans-serif;
+      font-size: 5rem;
+    }
+
+
+h2{
+text-align: center;
+color: #fff;
+font-family: "Poppins", sans-serif;
+font-size: 3rem;
+margin-top: -20px;
+margin-bottom: 30px;
+}
+
+.productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      
+    }
+
+    .producto {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .producto:hover {
+      transform: scale(1.02);
+    }
+
+    
+
+.producto img {
+  width: 50%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  cursor: zoom-in;
+}
+
+.producto img:hover {
+  transform: scale(1.5);
+}
+
+
+
+    
+
+    .producto-info {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .producto h3 {
+      margin: 0 0 10px;
+      color: #111;
+    }
+
+    .producto p {
+      color: #555;
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .precio {
+      font-size: 18px;
+      font-weight: bold;
+      color: #28a745;
+      margin-top: 10px;
+    }
+
+    .btn-comprar {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .btn-comprar:hover {
+      background-color: #e05500;
+    }
+  </style>
+
+
+
+<script>
+  // Al cargar la página, actualiza el contador del carrito
+  actualizarContador();
+
+  // Captura todos los botones de compra
+  const botonesComprar = document.querySelectorAll('.btn-comprar');
+
+  botonesComprar.forEach(boton => {
+    boton.addEventListener('click', () => {
+      const nombre = boton.getAttribute('data-nombre');
+      const precio = parseInt(boton.getAttribute('data-precio'));
+
+      let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+      // Agregar producto al carrito
+      carrito.push({ nombre, precio });
+
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+
+      actualizarContador();
+    });
+  });
+
+  function actualizarContador() {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const contador = document.querySelector('.contador-carrito');
+    if (contador) {
+      contador.textContent = carrito.length;
+    }
+  }
+</script>
+
+    
+
+  
+</body>
+</html>
