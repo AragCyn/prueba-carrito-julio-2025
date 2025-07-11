@@ -1,0 +1,99 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito de Compras</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body class="container-principal">
+  <header>
+    <a href="#" class="logo">Mi Tienda</a>
+    <div id="menu-icon" class="bx bx-menu"></div>
+    <nav class="navbar">
+      <a href="index.html#inicio">Inicio</a>
+      <a href="tienda.html">Tienda</a>
+      <a href="index.html#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <main style="padding: 10rem 2rem 4rem;">
+  <h1 class="heading">Carrito de <span>Compras</span></h1>
+
+  <section id="carrito-items" class="usos-container"></section>
+
+  <div class="btn-container">
+    <p style="font-size: 2rem; margin-bottom: 1rem;">Total: <span id="total-price">$0</span></p>
+    <button id="vaciar-carrito" class="btn" style="background-color: rgb(255, 255, 255); color: black;" >Vaciar carrito</button>
+    
+<a href="https://mpago.la/2a4e4Z2" class="btn" target="_blank">Finalizar compra</a>
+
+
+  </div>
+</main>
+
+<script>
+  
+
+  const contenedorCarrito = document.getElementById('carrito-items');
+    const totalElemento = document.getElementById('total-price');
+    const btnVaciar = document.getElementById('vaciar-carrito');
+    const btnFinalizar = document.getElementById('btn-finalizar');
+
+    function cargarCarrito() {
+      contenedorCarrito.innerHTML = "";
+      let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+      let total = 0;
+
+      if (carrito.length === 0) {
+        contenedorCarrito.innerHTML = "<p style='font-size: 1.5rem;'>Tu carrito está vacío.</p>";
+        totalElemento.textContent = `$0`;
+        if (btnFinalizar) btnFinalizar.style.display = 'none';
+        return;
+      } else {
+        if (btnFinalizar) btnFinalizar.style.display = 'inline-block';
+      }
+
+      carrito.forEach((producto, index) => {
+        total += producto.precio;
+
+        const div = document.createElement('div');
+        div.className = 'usos-box';
+        div.innerHTML = `
+          <h3>${producto.nombre}</h3>
+          <p>Precio: $${producto.precio.toLocaleString()}</p>
+          <div class="btn-container">
+            <button class="btn eliminar-btn" data-index="${index}">Eliminar</button>
+          </div>
+        `;
+        contenedorCarrito.appendChild(div);
+      });
+
+      totalElemento.textContent = `$${total.toLocaleString()}`;
+      agregarEventosEliminar();
+    }
+
+    function agregarEventosEliminar() {
+      document.querySelectorAll('.eliminar-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const index = this.getAttribute('data-index');
+          let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+          carrito.splice(index, 1);
+          localStorage.setItem('carrito', JSON.stringify(carrito));
+          cargarCarrito();
+        });
+      });
+    }
+
+    btnVaciar.addEventListener('click', () => {
+      localStorage.removeItem('carrito');
+      cargarCarrito();
+    });
+
+    cargarCarrito();
+</script>
+
+  
+</body>
+</html>
