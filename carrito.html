@@ -162,6 +162,26 @@ let menuIcon = document.querySelector('#menu-icon');
   });
 
   cargarCarrito();
+
+
+
+
+  // ...todo tu código actual...
+
+  function actualizarContador() {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const contador = document.querySelector('.contador-carrito');
+    if (contador) {
+      contador.textContent = carrito.length;
+    }
+  }
+
+  // Llamar a la función para mostrar el número al cargar la página
+  actualizarContador();
+
+
+
+  
 </script>
 
 
