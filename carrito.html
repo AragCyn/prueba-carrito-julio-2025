@@ -1,190 +1,215 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Carrito de Compras</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <style>
+    main {
+      padding: 120px 20px 40px;
+      max-width: 800px;
+      margin: auto;
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 4rem;
+      color: #00eeff;
+      margin-bottom: 30px;
+    }
+
+    .carrito-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1a1a1a;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .carrito-item p {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    .carrito-controles {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .carrito-controles button {
+      padding: 5px 10px;
+      font-size: 1.4rem;
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .carrito-controles button:hover {
+      background-color: #e05500;
+    }
+
+    .total {
+      font-size: 2rem;
+      text-align: right;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #00ff99;
+    }
+
+    .acciones {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .acciones button {
+      flex: 1;
+      padding: 10px;
+      font-size: 1.6rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .vaciar {
+      background-color: #ff0033;
+      color: white;
+    }
+
+    .vaciar:hover {
+      background-color: #cc002a;
+    }
+
+    .pagar {
+      background-color: #00eeff;
+      color: #000;
+    }
+
+    .pagar:hover {
+      background-color: #00bcd4;
+    }
+
+    .agradecimiento {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 2rem;
+      color: #00ff99;
+      display: none;
+    }
+  </style>
 </head>
-<body class="container-principal">
-  <header>
-    <div class="container-principal">
+<body>
+  <div class="container-principal">
     <header class="header">
       <a href="#" class="logo">
         <img src="img/logo dkomico.webp" alt="Logo" style="height: 40px;">
       </a>
-
-      <!-- Ícono del menú hamburguesa -->
       <i class='bx bx-menu' id="menu-icon"></i>
-
-      <!-- Menú de navegación -->
       <nav class="navbar">
-        <a href="#home" class="active">home</a>
-      <a href="#sobre-mi">Sobre mí</a>
-      <a href="#ilustraciones">Galería</a>
-      <a href="#usos">Usos</a>
-      <a href="#como-trabajo">Cómo trabajo</a>
-      <a href="#contacto">Contacto</a>
-      <a href="tienda.html">Tienda</a>
-      <a href="carrito.html" class="carrito-icono">
-  <i class="fas fa-shopping-cart"></i>
-  <span class="contador-carrito">0</span>
-</a>
+        <a href="index.html#home">home</a>
+        <a href="index.html#sobre-mi">Sobre mí</a>
+        <a href="index.html#ilustraciones">Galería</a>
+        <a href="index.html#usos">Usos</a>
+        <a href="index.html#como-trabajo">Cómo trabajo</a>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="tienda.html">Tienda</a>
+        <a href="carrito.html" class="active">Carrito</a>
+      </nav>
+    </header>
 
+    <main>
+      <h1>Tu Carrito</h1>
+      <div id="carrito-contenido"></div>
+      <p class="total">Total: $<span id="total">0</span></p>
 
+      <div class="acciones">
+        <button class="vaciar" onclick="vaciarCarrito()">Vaciar Carrito</button>
+        <button class="pagar" onclick="pagar()">Pagar</button>
+      </div>
 
-
-
-
-    </nav>
-  </header>
-
-  <main style="padding: 10rem 2rem 4rem;">
-  <h1 class="heading">Carrito de <span>Compras</span></h1>
-
-  <section id="carrito-items" class="usos-container"></section>
-
-  <div class="btn-container">
-    <p style="font-size: 2rem; margin-bottom: 1rem;">Total: <span id="total-price">$0</span></p>
-    <button id="vaciar-carrito" class="btn" style="background-color: rgb(255, 255, 255); color: black;" >Vaciar carrito</button>
-    
-<a href="https://mpago.la/2a4e4Z2" class="btn" target="_blank">Finalizar compra</a>
-
-
+      <div class="agradecimiento" id="agradecimiento">
+        ¡Gracias por tu compra! 💙
+      </div>
+    </main>
   </div>
-</main>
 
-<script>
-
-  //Menú hamburguesa
-
-let menuIcon = document.querySelector('#menu-icon');
-  let navbar = document.querySelector('.navbar');
-
-  menuIcon.onclick = () => {
-    navbar.classList.toggle('active');
-  };
-
-  let navLinks = document.querySelectorAll('.navbar a');
-
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      navbar.classList.remove('active');
-    });
-  });
-
-  const contenedorCarrito = document.getElementById('carrito-items');
-  const totalElemento = document.getElementById('total-price');
-  const btnVaciar = document.getElementById('vaciar-carrito');
-  const btnFinalizar = document.getElementById('btn-finalizar');
-
-  function cargarCarrito() {
-    contenedorCarrito.innerHTML = "";
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
+  <script>
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-    // Agrupar productos por nombre
-    const productosAgrupados = {};
-    carrito.forEach(prod => {
-      if (productosAgrupados[prod.nombre]) {
-        productosAgrupados[prod.nombre].cantidad++;
-      } else {
-        productosAgrupados[prod.nombre] = {
-          nombre: prod.nombre,
-          precio: prod.precio,
-          cantidad: 1
-        };
+    function mostrarCarrito() {
+      const contenedor = document.getElementById('carrito-contenido');
+      const totalTexto = document.getElementById('total');
+      contenedor.innerHTML = '';
+      let total = 0;
+
+      const resumen = {};
+
+      carrito.forEach(({ nombre, precio }) => {
+        if (resumen[nombre]) {
+          resumen[nombre].cantidad++;
+        } else {
+          resumen[nombre] = { precio, cantidad: 1 };
+        }
+      });
+
+      for (const nombre in resumen) {
+        const { precio, cantidad } = resumen[nombre];
+        total += precio * cantidad;
+
+        const item = document.createElement('div');
+        item.className = 'carrito-item';
+        item.innerHTML = `
+          <p>${nombre} (x${cantidad}) - $${precio * cantidad}</p>
+          <div class="carrito-controles">
+            <button onclick="modificarCantidad('${nombre}', 1)">+</button>
+            <button onclick="modificarCantidad('${nombre}', -1)">-</button>
+          </div>
+        `;
+        contenedor.appendChild(item);
       }
-    });
 
-    const productos = Object.values(productosAgrupados);
-    let total = 0;
-
-    if (productos.length === 0) {
-      contenedorCarrito.innerHTML = "<p style='font-size: 1.5rem;'>Tu carrito está vacío.</p>";
-      totalElemento.textContent = `$0`;
-      if (btnFinalizar) btnFinalizar.style.display = 'none';
-      return;
-    } else {
-      if (btnFinalizar) btnFinalizar.style.display = 'inline-block';
+      totalTexto.textContent = total;
     }
 
-    productos.forEach((producto, index) => {
-      const subtotal = producto.precio * producto.cantidad;
-      total += subtotal;
-
-      const div = document.createElement('div');
-      div.className = 'usos-box';
-      div.innerHTML = `
-        <h3>${producto.nombre}</h3>
-        <p>Precio unitario: $${producto.precio.toLocaleString()}</p>
-        <p>Cantidad: ${producto.cantidad}</p>
-        <p>Subtotal: $${subtotal.toLocaleString()}</p>
-        <div class="btn-container">
-          <button class="btn eliminar-una" data-nombre="${producto.nombre}">Eliminar una</button>
-          <button class="btn eliminar-todas" data-nombre="${producto.nombre}">Eliminar todas</button>
-        </div>
-      `;
-      contenedorCarrito.appendChild(div);
-    });
-
-    totalElemento.textContent = `$${total.toLocaleString()}`;
-    agregarEventosEliminar();
-  }
-
-  function agregarEventosEliminar() {
-    document.querySelectorAll('.eliminar-una').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const nombre = this.getAttribute('data-nombre');
-        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    function modificarCantidad(nombre, cambio) {
+      if (cambio > 0) {
+        const item = carrito.find(p => p.nombre === nombre);
+        carrito.push({ nombre, precio: item.precio });
+      } else {
         const index = carrito.findIndex(p => p.nombre === nombre);
         if (index !== -1) carrito.splice(index, 1);
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        cargarCarrito();
-      });
-    });
-
-    document.querySelectorAll('.eliminar-todas').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const nombre = this.getAttribute('data-nombre');
-        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        carrito = carrito.filter(p => p.nombre !== nombre);
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        cargarCarrito();
-      });
-    });
-  }
-
-  btnVaciar.addEventListener('click', () => {
-    localStorage.removeItem('carrito');
-    cargarCarrito();
-  });
-
-  cargarCarrito();
-
-
-
-
-  // ...todo tu código actual...
-
-  function actualizarContador() {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const contador = document.querySelector('.contador-carrito');
-    if (contador) {
-      contador.textContent = carrito.length;
+      }
+      localStorage.setItem('carrito', JSON.stringify(carrito));
+      mostrarCarrito();
     }
-  }
 
-  // Llamar a la función para mostrar el número al cargar la página
-  actualizarContador();
+    function vaciarCarrito() {
+      localStorage.removeItem('carrito');
+      carrito = [];
+      mostrarCarrito();
+    }
 
+    function pagar() {
+      if (carrito.length === 0) return alert("El carrito está vacío.");
 
+      document.getElementById('agradecimiento').style.display = 'block';
+      vaciarCarrito();
 
-  
-</script>
+      // Aquí podrías integrar Mercado Pago real (ver API v1 o preferencias).
+    }
 
-
-  
+    mostrarCarrito();
+  </script>
 </body>
 </html>
